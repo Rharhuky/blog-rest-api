@@ -6,6 +6,7 @@ import com.springboot.blog.payload.PostDto;
 import com.springboot.blog.payload.PostResponse;
 import com.springboot.blog.repository.PostRepository;
 import com.springboot.blog.service.PostService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,19 +14,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
 
     private PostRepository postRepository;
+    private ModelMapper mapper;
 
     @Autowired
-    public PostServiceImpl(PostRepository postRepository){
+    public PostServiceImpl(PostRepository postRepository, ModelMapper mapper){
 
         this.postRepository = postRepository;
+        this.mapper = mapper;
 
     }
 
@@ -45,11 +46,11 @@ public class PostServiceImpl implements PostService {
     //Entity para DTO
     private PostDto mapToDTO(Post post){
 
-        PostDto postResponse = new PostDto();
-        postResponse.setId(post.getId());
-        postResponse.setContent(post.getContent());
-        postResponse.setTitle(post.getTitle());
-        postResponse.setDescription(post.getDescription());
+        PostDto postResponse = this.mapper.map(post, PostDto.class);
+//        postResponse.setId(post.getId());
+//        postResponse.setContent(post.getContent());
+//        postResponse.setTitle(post.getTitle());
+//        postResponse.setDescription(post.getDescription());
 
         return postResponse;
     }
@@ -57,11 +58,11 @@ public class PostServiceImpl implements PostService {
     //DTo para entity
     private Post mapToEntity(PostDto postDto){
 
-        Post postReponse = new Post();
-        postReponse.setContent(postDto.getContent());
-        postReponse.setId(postDto.getId());
-        postReponse.setDescription(postDto.getDescription());
-        postReponse.setTitle(postDto.getTitle());
+        Post postReponse = this.mapper.map(postDto, Post.class);
+//        postReponse.setContent(postDto.getContent());
+//        postReponse.setId(postDto.getId());
+//        postReponse.setDescription(postDto.getDescription());
+//        postReponse.setTitle(postDto.getTitle());
 
         return postReponse;
     }
