@@ -7,6 +7,7 @@ import com.springboot.blog.utils.Constants;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class PostController {
 
     //requisicao para criacao de um post no blog
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto){
         //to enable validade iin PostDto, i can use Valid annotation
@@ -61,6 +63,7 @@ public class PostController {
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto, @PathVariable long id){
 
@@ -68,6 +71,7 @@ public class PostController {
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePostById(@PathVariable long id){
         this.postService.deletePostById(id);
