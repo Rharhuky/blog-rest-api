@@ -16,6 +16,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query(value = "SELECT * FROM comments WHERE post_id=:postId",nativeQuery = true)
     pelo visto n precisa, o srping data se vira com isso...
 
+        List<Comment> findByPostId(@Param("postId") long postId);
      */
 
 
